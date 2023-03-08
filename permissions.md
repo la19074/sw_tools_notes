@@ -12,8 +12,9 @@ File permissions are stored as follows:
 
 ## Useful Commands
 
+`sudo adduser NAME` adds a new user  
 `passwd` changes your password  
-`chown` changes who owns a file  
+`chown [OPTIONS] USER[:GROUP] FILE(s)` changes who owns a file  
 `chmod` changes the file's permissions  
 
 ### Setuid Programs
@@ -22,4 +23,4 @@ File permissions are stored as follows:
 `sudo` switch to user if the sysadmin says you’re allowed to with your password  
 `doas` modern rewrite of sudo with fewer bugs and Spiderman references  
 
-[1]: data/permissions_img1.png
+[1]: resources/permissions_img1.png

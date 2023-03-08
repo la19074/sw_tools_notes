@@ -32,7 +32,7 @@ or use gitk if you need a GUI.
 
 `$ git tag`
 
-### Checkout and Reset
+### Checkout
 
 `$ git checkout HEAD`  
 Reverts all changes to HEAD (Usually the latest commit).
@@ -40,18 +40,23 @@ Reverts all changes to HEAD (Usually the latest commit).
 `$ git checkout HEAD -- FILE`  
 Same, but only for FILE.
 
-`$ git reset --hard HEAD # Remove all changes`  
-`$ git clean -dfx # Delete all untracked files`  
-If you changed a lot of stuff. 
-
 `$ git checkout HEAD~1`  
 Check out the commit at HEAD - 1.
 
-`$ git checkout HEAD~1`  
-Return to the latest commit.
+### Undoing Changes
+
+`$ git reset HEAD`
+Moves the current head of the branch back to the specified commit (here it's HEAD). This changes the commit history by "rolling back" changes and should only be used if you haven't pushed those changes. 
 
 `$ git revert HEAD`  
-Reverse a commit, in this case HEAD.
+Reverse a specific commit, in this case HEAD. This would create a new commit with the reversed changes. 
+
+`git restore .`
+Restores all unstaged files to the last commit. 
+
+`$ git reset --hard HEAD # Remove all changes`  
+`$ git clean -dfx # Delete all untracked files`  
+If you changed a lot of stuff. 
 
 ### Clone Repository
 
@@ -98,10 +103,13 @@ Emacs or <https:://meldmerge.org> are good tools for dealing with merge conflict
 ### Branches
 
 `$ git branch NAME SRC`  
-Creates a new branch NAME of SRC (main if unspecified).  
+Creates a new branch NAME of SRC (SRC uses the main branch if unspecified).  
 
 `$ git checkout BRANCH`  
 Switch to BRANCH. 
+
+`git checkout -b BRANCH`  
+Create and switches to a new BRANCH. 
 
 `$ git push -u DST BRANCH`  
 Push BRANCH to remote DST (usually origin if using GitHub).  

@@ -47,6 +47,10 @@ Usage: ls [-1AaCxdLHRFplinshrSXvctu] [-w WIDTH] [FILE]
 
 #### man [SECTION] COMMAND
 
+shows a manual page for the given COMMAND.
+
+`man -k COMMAND` will search for COMMAND. 
+
 #### cp [-rfi] SRC...DEST
 copy files  
 -r recursive  
@@ -97,6 +101,8 @@ Package managers are used to install and manage packages and their dependancies.
 
 `$ apk info [-a] PACKAGE`
 
+Info shows information about the git package, including a short description and the website.
+
 `$ apk list [-I] PACKAGE`
 
 `$ apk [COMMAND] --help`
@@ -105,11 +111,17 @@ Package managers are used to install and manage packages and their dependancies.
 
 `$ sudo apk add PACKAGE [PACKAGE...]`
 
+Note: sudo is not needed if you are the root user. 
+
 #### Update and Upgrade
 
 `$ sudo apk update`
 
+This fetch the latest version of the program catalog file from the repository server and shows what the latest version of each package is.
+
 `$ sudo apk upgrade`
+
+This will upgrade all packages to their latest version if one exists after calling `apk update`.
 
 ## Pipes
 
@@ -211,19 +223,24 @@ Takes a filename as argument and writes a copy of input to it, as well as to std
 
 `s/ONE/TWO/[g]` replaces the first match for ONE (all matches, with /g) with TWO. Regular expressions are supported. 
 
+`^A` only match an A at the start of a string.  
+`'A$'` only match an A at the end of a string.  
+`.` matches with any single character.  
+`*` matches with any number of the character or brakceted string before it. 
+
 ## Shell Scripting
 
 <https://www.shellcheck.net> is a good tool to spot unportable/dangerous things in shell scripts.
 
 A shebang `#!` tells the shell what program to interpret the script with. 
 
-`#! /bin/sh/` is the most portable, but you can use bash too `#! /usr/bin/env bash`.
+`#!/bin/sh/` is the most portable, but you can use bash too `#!/usr/bin/env bash`.
 
 `chmod +x FILE` makes the file executable. 
 
 ### env
 
-`#! /usr/bin/env python3` is used for Python scripts. Why?
+`#!/usr/bin/env python3` is used for Python scripts. Why?
 
 Programs can be located in many places like `/bin` or `/usr/bin` or `/usr/local/bin` and so on. 
 
@@ -254,16 +271,23 @@ GREETING="Hello World!"
 This creates a variable. 
 
 ```sh
+echo $GREETING
 echo "${GREETING}"
 ```
 
 To use a variable. There’s no penalty for using one thats not defined, but `set -o nounset` will force undefined errors. 
 
+Using `${}` clearly defines the end of the variable name, i.e `${FILE}.c`.
+
+Using `""` around the variable is safer if the variable is a string with spaces. 
+
+The shell substitutes variables one line at a time, so you can't initialise a variable and use it on the same line. 
+
 ```sh
 export GREETING
 ```
 
-If you want your variable to exist in the programs you start as an environment variable. 
+If you want your variable to exist in the programs you export it as an environment variable. 
 
 ```sh
 unset GREETING
@@ -363,9 +387,9 @@ esac
 
 ## Even More Commands
 
-### basename "PATH"
+### basename "PATH" [suffix]
 
-Remove everything up to the last `/`.
+Remove everything up to the last `/`. Removes suffix if specified. 
 
 ```sh
 for f in *.jpg; do
@@ -387,3 +411,41 @@ List all processes.
 ### Others: awk, ghead
 
 See man pages. 
+
+## Linux File System
+
+### /bin
+
+Stands for binaries, that is programs that you can run.
+
+### /etc
+
+System-wide configuration files: typically only root (the administrator account) can change things in here.
+
+### /lib
+
+Dynamic libraries.
+
+### /home
+
+Folder containing users' home directories. However root gets its own directory `/root`. 
+
+### /sbin
+
+System binaries is another collection of programs, typically ones that only system administrators will use.
+
+### /usr
+
+For normally read-only data, such as programs and configuration files but not temporary data or log files. It contains subfolders like `/usr/bin` or `/usr/lib` that duplicate folders in the root directory.
+
+### /tmp
+
+Temporary filesystem that may be stored in RAM instead of on disk (but swapped out if necessary), that does not have to survive rebooting the machine.
+
+### /var
+
+Holds files that vary over time, such as logs or caches.
+
+### /dev, /sys and /proc
+
+Virtual file systems that provide file-based interfaces to hardware and processes. 
